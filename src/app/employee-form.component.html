@@ -1,0 +1,74 @@
+<mat-card>
+  <h2>{{ isEditMode ? 'Edit Employee' : 'Add Employee' }}</h2>
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+    <!-- Name Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="employeeForm.get('name')?.hasError('required')">
+        Name is required
+      </mat-error>
+      <mat-error *ngIf="employeeForm.get('name')?.hasError('minlength')">
+        Minimum 3 characters required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Gender Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Gender</mat-label>
+      <mat-select formControlName="gender">
+        <mat-option value="Male">Male</mat-option>
+        <mat-option value="Female">Female</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Departments Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Departments</mat-label>
+      <mat-select formControlName="departments" multiple>
+        <mat-option *ngFor="let dept of departmentsList" [value]="dept">
+          {{ dept }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Salary Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Salary</mat-label>
+      <input matInput type="number" formControlName="salary">
+      <mat-error *ngIf="employeeForm.get('salary')?.hasError('required')">
+        Salary is required
+      </mat-error>
+      <mat-error *ngIf="employeeForm.get('salary')?.hasError('min')">
+        Minimum salary is 500
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Start Date Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Start Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="startDate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Note Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Note</mat-label>
+      <textarea matInput formControlName="note"></textarea>
+    </mat-form-field>
+
+    <!-- Profile Pic Field -->
+    <mat-form-field appearance="fill">
+      <mat-label>Profile Pic URL</mat-label>
+      <input matInput formControlName="profilePic">
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit">
+        {{ isEditMode ? 'Update' : 'Save' }}
+      </button>
+      <button mat-button type="button" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</mat-card>
